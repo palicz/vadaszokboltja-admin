@@ -15,8 +15,9 @@ export async function POST(
             name,
             price,
             categoryId,
-            colorId,
-            sizeId,
+            subcategoryId,
+            // colorId,
+            // sizeId,
             images,
             brandId,
             description,
@@ -44,13 +45,17 @@ export async function POST(
             return new NextResponse("A kategória megadása kötelező", { status: 400 })
         }
 
-        if (!sizeId) {
-            return new NextResponse("A méret megadása kötelező", { status: 400 })
+        if (!subcategoryId) {
+            return new NextResponse("Az alkategória megadása kötelező", { status: 400 })
         }
 
-        if (!colorId) {
-            return new NextResponse("A szín megadása kötelező", { status: 400 })
-        }
+        /*         if (!sizeId) {
+                    return new NextResponse("A méret megadása kötelező", { status: 400 })
+                } */
+
+        /*         if (!colorId) {
+                    return new NextResponse("A szín megadása kötelező", { status: 400 })
+                } */
 
         if (!brandId) {
             return new NextResponse("A márka megadása kötelező", { status: 400 })
@@ -82,8 +87,9 @@ export async function POST(
                 isFeatured,
                 isArchived,
                 categoryId,
-                colorId,
-                sizeId,
+                subcategoryId,
+                // colorId,
+                // sizeId,
                 brandId,
                 description,
                 storeId: params.storeId,
@@ -112,8 +118,9 @@ export async function GET(
     try {
         const { searchParams } = new URL(req.url);
         const categoryId = searchParams.get("categoryId") || undefined;
-        const colorId = searchParams.get("colorId") || undefined;
-        const sizeId = searchParams.get("sizeId") || undefined;
+        const subcategoryId = searchParams.get("subcategoryId") || undefined;
+        //const colorId = searchParams.get("colorId") || undefined;
+        // const sizeId = searchParams.get("sizeId") || undefined;
         const brandId = searchParams.get("brandId") || undefined;
         const description = searchParams.get("description") || undefined;
         const isFeatured = searchParams.get("isFeatured") || undefined;
@@ -126,8 +133,9 @@ export async function GET(
             where: {
                 storeId: params.storeId,
                 categoryId,
-                colorId,
-                sizeId,
+                subcategoryId,
+                // colorId,
+                // sizeId,
                 brandId,
                 description,
                 isFeatured: isFeatured ? true : undefined,
@@ -136,7 +144,8 @@ export async function GET(
             include: {
                 images: true,
                 category: true,
-                size: true
+                subcategory: true,
+                // size: true
             },
             orderBy: {
                 createdAt: 'desc',

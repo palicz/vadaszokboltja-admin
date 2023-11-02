@@ -5,15 +5,15 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { SizeColumn, columns } from "./columns";
+import { SubcategoryColumn, columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 import { ApiList } from "@/components/ui/api-list";
 
-interface SizesClientProps {
-  data: SizeColumn[]
+interface SubcategoryClientProps {
+  data: SubcategoryColumn[]
 }
 
-export const SizesClient: React.FC<SizesClientProps> = ({
+export const SubcategoryClient: React.FC<SubcategoryClientProps> = ({
   data
 }) => {
   const router = useRouter();
@@ -22,9 +22,9 @@ export const SizesClient: React.FC<SizesClientProps> = ({
   return (
     <>
       <div className="flex items-center justify-between">
-        <Heading title={`Méretek (${data.length})`} description="Méretek kezelése" />
+        <Heading title={`Alkategóriák (${data.length})`} description="Alkategóriák kezelése" />
         <Button
-          onClick={() => router.push(`/${params.storeId}/sizes/new`)}
+          onClick={() => router.push(`/${params.storeId}/subcategories/new`)}
         >
           <Plus className="mr-2 h-4 w-4" />
           Új hozzáadása
@@ -32,9 +32,9 @@ export const SizesClient: React.FC<SizesClientProps> = ({
       </div>
       <Separator />
       <DataTable columns={columns} data={data} searchKey="name" />
-      <Heading title="API" description="API hívások a Méretekhez"/>
+      <Heading title="API" description="API hívások az Alkategóriákhoz" />
       <Separator />
-      <ApiList entityName="sizes" entityIdName="sizeId"/>
+      <ApiList entityName="subcategories" entityIdName="subcategoryId" />
     </>
   );
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Trash } from "lucide-react";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
@@ -8,7 +8,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Product, Image, Category, Color, Size, Brand } from "@prisma/client";
+import { Product, Image, Category, Brand, Subcategory } from "@prisma/client";
 import { Heading } from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -26,8 +26,7 @@ const formSchema = z.object({
     images: z.object({ url: z.string() }).array(),
     price: z.coerce.number().min(1),
     categoryId: z.string().min(1),
-    colorId: z.string().min(1),
-    sizeId: z.string().min(1),
+    subcategoryId: z.string().min(1),
     brandId: z.string().min(1),
     description: z.string().min(1),
     isFeatured: z.boolean().default(false).optional(),
@@ -41,8 +40,7 @@ interface ProductFormProps {
         images: Image[]
     } | null;
     categories: Category[];
-    colors: Color[];
-    sizes: Size[];
+    subcategories: Subcategory[];
     description: string;
     brands: Brand[];
 }
@@ -50,11 +48,26 @@ interface ProductFormProps {
 export const ProductForm: React.FC<ProductFormProps> = ({
     initialData,
     categories,
-    colors,
-    sizes,
+    subcategories,
     description,
     brands
 }) => {
+    // Subcategory selection
+    const [selectedCategory, setSelectedCategory] = useState<string>(""); // Track selected category
+    const [filteredSubcategories, setFilteredSubcategories] = useState<Subcategory[]>([]);
+
+    useEffect(() => {
+        // When the selected category changes, update the filtered subcategories
+        if (selectedCategory) {
+            const subcategoriesForCategory = subcategories.filter(
+                (subcategory) => subcategory.categoryId === selectedCategory
+            );
+            setFilteredSubcategories(subcategoriesForCategory);
+        } else {
+            setFilteredSubcategories([]); // No category selected, clear subcategories
+        }
+    }, [selectedCategory, subcategories]);
+
     const params = useParams();
     const router = useRouter();
 
@@ -77,8 +90,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             images: [],
             price: 0,
             categoryId: '',
-            colorId: '',
-            sizeId: '',
+            subcategoryId: '',
             brandId: '',
             description: '',
             isFeatured: false,
@@ -169,7 +181,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                         <FormField control={form.control} name="categoryId" render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Kategória</FormLabel>
-                                <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                                <Select disabled={loading} onValueChange={(value) => { field.onChange(value); setSelectedCategory(value); }} value={field.value} defaultValue={field.value}>
                                     <FormControl>
                                         <SelectTrigger>
                                             <SelectValue defaultValue={field.value} placeholder="Kategória kiválasztása" />
@@ -184,45 +196,29 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                     </SelectContent>
                                 </Select>
                             </FormItem>
-                        )} />
-                        <FormField control={form.control} name="sizeId" render={({ field }) => (
+                        )}
+                        />
+
+                        <FormField control={form.control} name="subcategoryId" render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Méret</FormLabel>
-                                <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                                <FormLabel>Alkategória</FormLabel>
+                                <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value} >
                                     <FormControl>
                                         <SelectTrigger>
-                                            <SelectValue defaultValue={field.value} placeholder="Méret kiválasztása" />
+                                            <SelectValue defaultValue={field.value} placeholder="Alkategória kiválasztása" />
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        {sizes.map((size) => (
-                                            <SelectItem key={size.id} value={size.id}>
-                                                {size.name}
+                                        {filteredSubcategories.map((subcategory) => (
+                                            <SelectItem key={subcategory.id} value={subcategory.id}>
+                                                {subcategory.name}
                                             </SelectItem>
                                         ))}
                                     </SelectContent>
                                 </Select>
                             </FormItem>
-                        )} />
-                        <FormField control={form.control} name="colorId" render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Szín</FormLabel>
-                                <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue defaultValue={field.value} placeholder="Szín kiválasztása" />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        {colors.map((color) => (
-                                            <SelectItem key={color.id} value={color.id}>
-                                                {color.name}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            </FormItem>
-                        )} />
+                        )}
+                        />
                         <FormField control={form.control} name="brandId" render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Márka</FormLabel>

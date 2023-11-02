@@ -7,9 +7,7 @@ export type ProductColumn = {
   id: string;
   name: string;
   price: string;
-  size: string;
   category: string;
-  color: string;
   brand: string;
   description: string;
   isFeatured: string;
@@ -39,18 +37,8 @@ export const columns: ColumnDef<ProductColumn>[] = [
     header: "Kategória",
   },
   {
-    accessorKey: "size",
-    header: "Méret",
-  },
-  {
-    accessorKey: "color",
-    header: "Szín",
-    cell: ({ row }) => (
-      <div className="flex items-center gap-x-2">
-        {row.original.color}
-        <div className="h-6 w-6 rounded-full boarder" style={{ backgroundColor: row.original.color }} />
-      </div>
-    )
+    accessorKey: "subcategory",
+    header: "Alkategória",
   },
   {
     accessorKey: "brand",

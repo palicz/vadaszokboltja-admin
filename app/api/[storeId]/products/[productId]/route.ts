@@ -18,8 +18,9 @@ export async function GET(
             include: {
                 images: true,
                 category: true,
-                size: true,
-                color: true,
+                subcategory: true,
+                // size: true,
+                // color: true,
                 brand: true,
             }
         });
@@ -43,8 +44,9 @@ export async function PATCH(
             name,
             price,
             categoryId,
-            colorId,
-            sizeId,
+            subcategoryId,
+            // colorId,
+            // sizeId,
             images,
             brandId,
             description,
@@ -72,13 +74,17 @@ export async function PATCH(
             return new NextResponse("A kategória megadása kötelező", { status: 400 })
         }
 
-        if (!sizeId) {
-            return new NextResponse("A méret megadása kötelező", { status: 400 })
+        if (!subcategoryId) {
+            return new NextResponse("Az alkategória megadása kötelező", { status: 400 })
         }
 
-        if (!colorId) {
-            return new NextResponse("A szín megadása kötelező", { status: 400 })
-        }
+        /*         if (!sizeId) {
+                    return new NextResponse("A méret megadása kötelező", { status: 400 })
+                } */
+
+        /*         if (!colorId) {
+                    return new NextResponse("A szín megadása kötelező", { status: 400 })
+                } */
 
         if (!brandId) {
             return new NextResponse("A márka megadása kötelező", { status: 400 })
@@ -111,8 +117,9 @@ export async function PATCH(
                 name,
                 price,
                 categoryId,
-                colorId,
-                sizeId,
+                subcategoryId,
+                // colorId,
+                // sizeId,
                 brandId,
                 description,
                 images: {

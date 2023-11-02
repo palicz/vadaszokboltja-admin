@@ -28,14 +28,9 @@ export function MainNav({
             active: pathname === `/${params.storeId}/categories`,
         },
         {
-            href: `/${params.storeId}/sizes`,
-            label: 'Méretek',
-            active: pathname === `/${params.storeId}/sizes`,
-        },
-        {
-            href: `/${params.storeId}/colors`,
-            label: 'Színek',
-            active: pathname === `/${params.storeId}/colors`,
+            href: `/${params.storeId}/subcategories`,
+            label: 'Alkategóriák',
+            active: pathname === `/${params.storeId}/subcategories`,
         },
         {
             href: `/${params.storeId}/brands`,
@@ -57,14 +52,14 @@ export function MainNav({
 
     return (
         <nav
-        className={cn("flex items-center space-x-4 lg:space-x-6", className)}
+            className={cn("flex items-center space-x-4 lg:space-x-6", className)}
         >
             {routes.map((route) => (
                 <Link key={route.href} href={route.href} className={cn("text-sm font-medium transition-colors hover:text-primary",
-                route.active ? "text-black dark:text-whie" : "text-muted-foreground"
+                    route.active ? "text-black dark:text-whie" : "text-muted-foreground"
                 )}
                 >
-                {route.label}
+                    {route.label}
                 </Link>
             ))}
         </nav>
