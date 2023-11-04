@@ -24,6 +24,17 @@ const ProductsPage = async ({
     }
   });
 
+
+  /**
+ * Truncates a given description to a specified length.
+ */
+  const truncateDescription = (description: string, length: number): string => {
+    if (description.length > length) {
+      return description.slice(0, length) + '...';
+    }
+    return description;
+  };
+
   const formattedProducts: ProductColumn[] = products.map((item) => ({
     id: item.id,
     name: item.name,
@@ -33,7 +44,7 @@ const ProductsPage = async ({
     category: item.category.name,
     subcategory: item.subcategory.name,
     brand: item.brand.name,
-    description: item.description,
+    description: truncateDescription(item.description, 45),
     createdAt: format(item.createdAt, "MMMM do, yyyy")
   }))
 
