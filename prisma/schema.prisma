@@ -92,7 +92,7 @@ model Product {
   isArchived    Boolean     @default(false)
   brandId       String
   brand         Brand       @relation(fields: [brandId], references: [id])
-  description   String
+  description   String      @db.Text
   images        Image[]
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
