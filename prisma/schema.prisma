@@ -45,6 +45,7 @@ model Category {
   billboard   Billboard     @relation(fields: [billboardId], references: [id])
   products    Product[]     @relation("CategoryToProduct")
   subcategory Subcategory[] @relation("CategoryToSubcategory")
+  brand       Brand[]       @relation("CategoryToBrand")
   name        String
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
@@ -66,18 +67,6 @@ model Subcategory {
 
   @@index([storeId])
   @@index([categoryId])
-}
-
-model Brand {
-  id        String    @id @default(uuid())
-  storeId   String
-  store     Store     @relation("StoreToBrand", fields: [storeId], references: [id])
-  name      String
-  products  Product[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-
-  @@index([storeId])
 }
 
 model Product {
@@ -103,6 +92,21 @@ model Product {
   @@index([brandId])
   @@index([categoryId])
   @@index([subcategoryId])
+}
+
+model Brand {
+  id         String    @id @default(uuid())
+  storeId    String
+  store      Store     @relation("StoreToBrand", fields: [storeId], references: [id])
+  name       String
+  categoryId String
+  category   Category  @relation("CategoryToBrand", fields: [categoryId], references: [id])
+  products   Product[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@index([storeId])
+  @@index([categoryId])
 }
 
 model Image {

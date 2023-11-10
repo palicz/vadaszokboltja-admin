@@ -11,7 +11,7 @@ export async function POST(
         const { userId } = auth();
         const body = await req.json();
 
-        const { name } = body;
+        const { name, categoryId } = body;
 
         if (!userId) {
             return new NextResponse("Nincs engedélye a művelet végrehajtásához", { status: 401 });
@@ -19,6 +19,10 @@ export async function POST(
 
         if (!name) {
             return new NextResponse("A név megadása kötelező", { status: 400 })
+        }
+
+        if (!categoryId) {
+            return new NextResponse("Kategória ID kötelező", { status: 400 })
         }
 
         if (!params.storeId) {
@@ -39,6 +43,7 @@ export async function POST(
         const brand = await prismadb.brand.create({
             data: {
                 name,
+                categoryId,
                 storeId: params.storeId
             }
         });

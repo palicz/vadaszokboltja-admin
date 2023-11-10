@@ -8,7 +8,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Brand } from "@prisma/client";
+import { Brand, Category } from "@prisma/client";
 import { Heading } from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -17,19 +17,23 @@ import { Input } from "@/components/ui/input";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { useOrigin } from "@/hooks/use-origin";
 import ImageUpload from "@/components/ui/image-upload";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const formSchema = z.object({
     name: z.string().min(1),
+    categoryId: z.string().min(1)
 });
 
 type BrandFormValues = z.infer<typeof formSchema>;
 
 interface BrandFormProps {
     initialData: Brand | null;
+    categories: Category[];
 }
 
 export const BrandForm: React.FC<BrandFormProps> = ({
-    initialData
+    initialData,
+    categories
 }) => {
     const params = useParams();
     const router = useRouter();
@@ -47,6 +51,7 @@ export const BrandForm: React.FC<BrandFormProps> = ({
         resolver: zodResolver(formSchema),
         defaultValues: initialData || {
             name: '',
+            categoryId: ''
         }
     });
 
@@ -107,6 +112,25 @@ export const BrandForm: React.FC<BrandFormProps> = ({
                                 <FormControl>
                                     <Input disabled={loading} placeholder="Márka neve" {...field} />
                                 </FormControl>
+                            </FormItem>
+                        )} />
+                        <FormField control={form.control} name="categoryId" render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Kategória</FormLabel>
+                                <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue defaultValue={field.value} placeholder="Kategória kiválasztása" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {categories.map((category) => (
+                                            <SelectItem key={category.id} value={category.id}>
+                                                {category.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
                             </FormItem>
                         )} />
                     </div>

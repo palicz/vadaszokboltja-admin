@@ -4,7 +4,7 @@ import { BrandForm } from "./components/brand-form";
 const BrandPage = async ({
   params,
 }: {
-  params: { brandId: string };
+  params: { brandId: string, storeId: string };
 }) => {
   const brand = await prismadb.brand.findUnique({
     where: {
@@ -12,10 +12,16 @@ const BrandPage = async ({
     },
   });
 
+  const categories = await prismadb.category.findMany({
+    where: {
+      storeId: params.storeId
+    }
+  });
+
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <BrandForm initialData={brand} />
+        <BrandForm categories={categories} initialData={brand} />
       </div>
     </div>
   )

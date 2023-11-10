@@ -14,6 +14,9 @@ export async function GET(
         const brand = await prismadb.brand.findUnique({
             where: {
                 id: params.brandId,
+            },
+            include: {
+                category: true,
             }
         });
 
@@ -32,7 +35,7 @@ export async function PATCH(
         const { userId } = auth();
         const body = await req.json();
 
-        const { name } = body;
+        const { name, categoryId } = body;
 
         if (!userId) {
             return new NextResponse("Nincs engedélye a művelet végrehajtásához", { status: 401 })
@@ -40,6 +43,10 @@ export async function PATCH(
 
         if (!name) {
             return new NextResponse("A név megadása kötelező", { status: 400 })
+        }
+
+        if (!categoryId) {
+            return new NextResponse("A kategória megadása kötelező", { status: 400 })
         }
 
         if (!params.brandId) {
@@ -63,6 +70,7 @@ export async function PATCH(
             },
             data: {
                 name,
+                categoryId
             }
         });
 
