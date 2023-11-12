@@ -1,13 +1,11 @@
 "use client";
 
-import { Button } from '@/components/ui/button'
-import { Modal } from '@/components/ui/modal';
-import { useStoreModal } from '@/hooks/use-store-modal';
-import { UserButton } from '@clerk/nextjs';
-import Image from 'next/image'
-import { useEffect } from 'react';
+import { useEffect } from "react";
+import { useParams } from "next/navigation";
 
-const setupPage = () => {
+import { useStoreModal } from "@/hooks/use-store-modal";
+
+const SetupPage = () => {
   const onOpen = useStoreModal((state) => state.onOpen);
   const isOpen = useStoreModal((state) => state.isOpen);
 
@@ -21,4 +19,4 @@ const setupPage = () => {
   return null;
 }
 
-export default setupPage;
+export default SetupPage;
