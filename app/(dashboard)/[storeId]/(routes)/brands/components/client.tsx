@@ -32,9 +32,9 @@ export const SizesClient: React.FC<SizesClientProps> = ({
       </div>
       <Separator />
       <DataTable columns={columns} data={data} searchKey="name" />
-      <Heading title="API" description="API hívások a Márkákhoz" />
+      {/*       <Heading title="API" description="API hívások a Márkákhoz" />
       <Separator />
-      <ApiList entityName="brands" entityIdName="brandId" />
+      <ApiList entityName="brands" entityIdName="brandId" /> */}
     </>
   );
 };

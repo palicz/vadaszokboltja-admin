@@ -75,11 +75,11 @@ export const SettingsForm: React.FC<SettigsFormProps> = ({
 
     return (
         <>
-        <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} loading={loading} />
+            <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} loading={loading} />
             <div className="flex items-center justify-between">
                 <Heading
-                title="Beállítások"
-                description="Üzlet beállítok kezelése" 
+                    title="Beállítások"
+                    description="Üzlet beállítok kezelése"
                 />
                 <Button disabled={loading} variant="destructive" size="icon" onClick={() => setOpen(true)}>
                     <Trash className="h-4 w-4"></Trash>
@@ -95,7 +95,7 @@ export const SettingsForm: React.FC<SettigsFormProps> = ({
                                 <FormControl>
                                     <Input disabled={loading} placeholder="Üzlet neve" {...field} />
                                 </FormControl>
-                                <FormMessage/>
+                                <FormMessage />
                             </FormItem>
                         )} />
                     </div>
@@ -105,7 +105,7 @@ export const SettingsForm: React.FC<SettigsFormProps> = ({
                 </form>
             </Form>
             <Separator />
-            <ApiAlert title="NEXT_PUBLIC_API_URL" description={`${origin}/api/${params.storeId}`} variant="public"/>
+            {/* <ApiAlert title="NEXT_PUBLIC_API_URL" description={`${origin}/api/${params.storeId}`} variant="public"/> */}
         </>
     );
 };

@@ -32,9 +32,9 @@ export const ProductClient: React.FC<ProductClientProps> = ({
       </div>
       <Separator />
       <DataTable columns={columns} data={data} searchKey="name" />
-      <Heading title="API" description="API hívások a Termékekhez"/>
+      {/*       <Heading title="API" description="API hívások a Termékekhez"/>
       <Separator />
-      <ApiList entityName="products" entityIdName="productId"/>
+      <ApiList entityName="products" entityIdName="productId"/> */}
     </>
   );
 };
