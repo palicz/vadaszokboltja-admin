@@ -12,8 +12,8 @@ import { ThemeProvider } from '@/providers/theme-provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'vadaszokboltja.hu | Irányítópult',
-  description: 'Admin irányítópult a vadaszokboltja.hu weboldalnak.',
+  title: 'Irányítópult',
+  description: 'Szervezeti kezelőfelület.',
 }
 
 export default function RootLayout({
@@ -23,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="hu">
         <body className={inter.className}>
           <ThemeProvider attribute="class" defaultTheme='system' enableSystem>
             <ToasterProvider />
