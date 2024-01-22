@@ -20,6 +20,7 @@ import ImageUpload from "@/components/ui/image-upload";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
+import { SelectGroup } from "@radix-ui/react-select";
 
 const formSchema = z.object({
     name: z.string().min(1),
@@ -209,11 +210,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        {filteredSubcategories.map((subcategory) => (
-                                            <SelectItem key={subcategory.id} value={subcategory.id}>
-                                                {subcategory.name}
-                                            </SelectItem>
-                                        ))}
+                                        <SelectGroup className="overflow-y-auto max-h-[25rem]">
+                                            {filteredSubcategories.map((subcategory) => (
+                                                <SelectItem key={subcategory.id} value={subcategory.id}>
+                                                    {subcategory.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectGroup>
                                     </SelectContent>
                                 </Select>
                             </FormItem>
@@ -229,11 +232,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        {brands.map((brand) => (
-                                            <SelectItem key={brand.id} value={brand.id}>
-                                                {brand.name}
-                                            </SelectItem>
-                                        ))}
+                                        <SelectGroup className="overflow-y-auto max-h-[25rem]">
+                                            {brands.map((brand) => (
+                                                <SelectItem key={brand.id} value={brand.id}>
+                                                    {brand.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectGroup>
                                     </SelectContent>
                                 </Select>
                             </FormItem>
